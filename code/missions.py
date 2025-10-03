@@ -1,4 +1,4 @@
-from CoopBot import bot
+from CoopBot import bot, LEFT, RIGHT, BLACK, WHITE
 
 def spinWheels():
     bot.drive_base.drive(200)
@@ -10,7 +10,7 @@ def main():
     #bot.followline()
     bot.driveUntilImpact(forward=True)
     #bot.colorPrint()
-    print()
+    print() 
 
 
 main()
