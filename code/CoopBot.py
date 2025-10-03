@@ -24,7 +24,7 @@ class CoopBot:
     drive_base = DriveBase(left_motor, right_motor, 56, 94)
 
     def __init__(self):
-        bot.drive_base.use_gyro(True)
+        self.drive_base.use_gyro(True)
 
     
 
