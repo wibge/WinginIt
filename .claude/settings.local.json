@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:royaneh.goldengatescouting.org)",
+      "WebFetch(domain:yoshis.com)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
