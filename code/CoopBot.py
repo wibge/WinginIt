@@ -15,7 +15,7 @@ FRONT_ARM_SPEED = 200
 TURN_SPEED = 100
 TURN_ACCELERATION = 400
 SPEED = 200
-SPEED_ACCELERATION = 400
+SPEED_ACCELERATION = 200
 class CoopBot:
 
 
@@ -31,6 +31,7 @@ class CoopBot:
         self.drive_base = DriveBase(self.left_motor, self.right_motor, 56, 94)
         self.front_motor.control.stall_tolerances(speed=100, time=100)
         self.top_motor.control.stall_tolerances(speed=100, time=50)
+        #self.drive_base.heading_control.target_tolerances(position=5)
         self.drive_base.use_gyro(True)
         print(self.drive_base.settings())
         self.drive_base.settings(straight_speed=SPEED, 
@@ -39,6 +40,9 @@ class CoopBot:
                                  turn_acceleration=TURN_ACCELERATION)
 
     def turn(self, angle):
+        self.drive_base.turn(angle, wait=True)
+        print("FINAL  yaw_angle:%f " % (self.prime_hub.imu.heading()))
+        return
         self.drive_base.reset()
         wait(10)
 
@@ -57,10 +61,8 @@ class CoopBot:
             wheel_pct = int(min(max_pct, feedforward + abs(error * p_gain)))
             direction = -1 if error > 0 else 1
             velocity = -direction * (wheel_pct * TURN_SPEED)//100
-            print("wheel_pct:%d        error:%f    yaw_angle:%f    velocity:%f" % (wheel_pct, error, self.prime_hub.imu.heading(), velocity))
-
-            self.drive_base.drive(0, velocity)
-            
+            #print("wheel_pct:%d        error:%f    yaw_angle:%f    velocity:%f" % (wheel_pct, error, self.prime_hub.imu.heading(), velocity))
+            self.drive_base.drive(0, velocity)            
             error = degrees - self.prime_hub.imu.heading()
         
         self.drive_base.stop()
@@ -275,7 +277,8 @@ class CoopBot:
         self.front_motor.run_angle(speed=FRONT_ARM_SPEED, rotation_angle=degrees)
 
     def moveTopArm(self, degrees):
-        self.top_motor.run_angle(speed=FRONT_ARM_SPEED, rotation_angle=degrees)
+        self.top_motor.run_angle(speed=FRONT_ARM_SPEED, 
+                                 rotation_angle=degrees)
 
     def topArmDown(self):
             print(self.top_motor.control.stall_tolerances())

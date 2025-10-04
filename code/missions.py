@@ -2,7 +2,8 @@ from CoopBot import bot, LEFT, RIGHT, BLACK, WHITE
 from pybricks.tools import wait, StopWatch
 
 def spinWheels():
-    bot.drive_base.drive(200)
+    bot.drive_base.drive(200,0)
+    wait(600000)
 
 def main():
     mapReveal()
@@ -24,22 +25,37 @@ def main():
     bot.armDown()
 
 def mapReveal():
+    #bot.turn(45)
+    #print(bot.drive_base.heading_control.target_tolerances())
+    #return
+    #bot.driveStraight(500)
+    #return
+
     bot.armDown()
-    bot.moveArm(85)
-    bot.moveTopArm(150)
-
-    wait(50)
-    bot.driveStraight(780)
-    wait(50)
-    bot.turn(-48)
+    wait(20)
+    bot.moveTopArm(130)
+    wait(20)
+    bot.moveArm(50)
     wait(50)
 
-    bot.driveStraight(125)
-    bot.topArmDown()
-    return
-    bot.moveArm(190)
     
-    bot.driveStraight(-200)
+    bot.driveStraight(745,150) # long drive across mat
+    wait(50)
+    bot.turn(-42)
+    wait(50)
 
+    bot.driveStraight(155) # approach model
+    bot.topArmDown()
+    
+    bot.moveArm(100)
+    bot.driveStraight(-200) # back up 
 
+def theforge():
+    bot.armUp()
+    bot.driveStraight(740)
+    #bot.moveArm(20)
+    bot.turn(30)
+    bot.driveStraight(-75)
+    bot.turn(50)
+    bot.driveUntilImpact()
 main()
