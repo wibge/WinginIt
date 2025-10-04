@@ -82,9 +82,6 @@ class CoopBot:
         while self.drive_base.distance() * direction < (distance * direction):
             print(str(self.prime_hub.imu.heading()) + " " + str(self.drive_base.distance()))
             heading = self.prime_hub.imu.heading()
-            #self.drive_base.drive(speed, -heading)
-            self.drive_base.drive(speed, 0)
-
         self.drive_base.stop()
 
     def driveUntilImpact(self, forward=True, speed=100):
@@ -133,7 +130,6 @@ class CoopBot:
     def squareUp(self, speed=100):
         """ Robot drives until it reaches BLACK, and aligns both sensors with the color. 
 
-
         Args:
             speed (int, optional): in degrees/s. If negative, robot will go backwards. Defaults to 100.
         """
@@ -156,8 +152,6 @@ class CoopBot:
                 current_speed = max(speed, 25)
             elif left_sensor_on < 8 or right_sensor_on < 8:
                 current_speed = max(speed, 50)
-
- 
 
             if left_sensor_on > 0:
                 self.left_motor.run(current_speed)
