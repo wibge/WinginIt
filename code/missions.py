@@ -24,7 +24,6 @@ def main():
     bot.armDown()
 
 def mapReveal():
-    
     bot.armDown()
     bot.moveArm(85)
     bot.moveTopArm(150)
@@ -32,7 +31,7 @@ def mapReveal():
     wait(50)
     bot.driveStraight(780)
     wait(50)
-    bot.turn(-50)
+    bot.turn(-48)
     wait(50)
 
     bot.driveStraight(125)

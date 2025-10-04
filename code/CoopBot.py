@@ -39,10 +39,14 @@ class CoopBot:
                                  turn_acceleration=TURN_ACCELERATION)
 
     def turn(self, angle):
+        self.drive_base.reset()
+        wait(10)
+
+        
         degrees = angle # make positive rotation clockwise
-        max_pct = 30
+        max_pct = 100
         feedforward = 5
-        p_gain = 0.15
+        p_gain = 2
         stop_error = 0.3
         self.drive_base.reset()
         wait(5)
@@ -51,16 +55,21 @@ class CoopBot:
         wheel_pct = 0
         while stop_error < abs(error):
             wheel_pct = int(min(max_pct, feedforward + abs(error * p_gain)))
-            direction = 1 if error > 0 else -1
+            direction = -1 if error > 0 else 1
             velocity = -direction * (wheel_pct * TURN_SPEED)//100
+            print("wheel_pct:%d        error:%f    yaw_angle:%f    velocity:%f" % (wheel_pct, error, self.prime_hub.imu.heading(), velocity))
+
             self.drive_base.drive(0, velocity)
+            
             error = degrees - self.prime_hub.imu.heading()
         
         self.drive_base.stop()
         wait(10)
+        
             
         print("FINAL wheel_pct:%d        error:%f    yaw_angle:%f    velocity:%f" % (wheel_pct, error, self.prime_hub.imu.heading(), velocity))
-        self.drive_base.turn(angle)
+        #self.drive_base.turn(angle, wait=True)
+        print("FINAL  yaw_angle:%f " % (self.prime_hub.imu.heading()))
 
     def isSensorOnColor(self, side, color=BLACK):
         """ Tests if the sensor is on the color
