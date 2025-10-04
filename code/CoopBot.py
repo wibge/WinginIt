@@ -11,23 +11,35 @@ RIGHT = 0
 BLACK = 1
 WHITE = 0
 
-
+FRONT_ARM_SPEED = 200
+TURN_SPEED = 100
+TURN_ACCELERATION = 400
+SPEED = 200
+SPEED_ACCELERATION = 400
 class CoopBot:
-    prime_hub = PrimeHub(top_side=Axis.Z, front_side=Axis.X)
-    left_sensor = ColorSensor(Port.D)
-    right_sensor = ColorSensor(Port.F)
-    top_motor = Motor(Port.A, Direction.CLOCKWISE)
-    front_motor = Motor(Port.C, Direction.CLOCKWISE)
-    left_motor = Motor(Port.B, Direction.COUNTERCLOCKWISE)
-    right_motor = Motor(Port.E, Direction.CLOCKWISE)
-    # configure drive base with wheel diameter and distance apart
-    drive_base = DriveBase(left_motor, right_motor, 56, 94)
+
 
     def __init__(self):
+        self.prime_hub = PrimeHub(top_side=Axis.Z, front_side=Axis.X)
+        self.left_sensor = ColorSensor(Port.D)
+        self.right_sensor = ColorSensor(Port.F)
+        self.top_motor = Motor(Port.A, Direction.CLOCKWISE)
+        self.front_motor = Motor(Port.C, Direction.CLOCKWISE)
+        self.left_motor = Motor(Port.B, Direction.COUNTERCLOCKWISE)
+        self.right_motor = Motor(Port.E, Direction.CLOCKWISE)
+        # configure drive base with wheel diameter and distance apart
+        self.drive_base = DriveBase(self.left_motor, self.right_motor, 56, 94)
+        self.front_motor.control.stall_tolerances(speed=100, time=100)
+        self.top_motor.control.stall_tolerances(speed=100, time=50)
         self.drive_base.use_gyro(True)
+        print(self.drive_base.settings())
+        self.drive_base.settings(straight_speed=SPEED, 
+                                 straight_acceleration=SPEED_ACCELERATION,
+                                 turn_rate=TURN_SPEED,
+                                 turn_acceleration=TURN_ACCELERATION)
 
-    
-
+    def turn(self, angle):
+        self.drive_base.turn(angle)
 
     def isSensorOnColor(self, side, color=BLACK):
         """ Tests if the sensor is on the color
@@ -58,7 +70,7 @@ class CoopBot:
         print("Left: " + str(self.left_sensor.reflection()) + " " + str(self.left_sensor.hsv()))
         print("Rght: " + str(self.right_sensor.reflection()) + " " + str(self.right_sensor.hsv()))
 
-    def driveStraight(self, distance, speed=100):
+    def driveStraight(self, distance, speed=SPEED):
         """ Bot drives straight using the gyroscope
 
         Args:
@@ -78,10 +90,18 @@ class CoopBot:
         
         print("Start: " + str(self.prime_hub.imu.heading()) + " " + str(self.drive_base.distance()))
 
+        totalDistance = distance * direction
+        drivenDistance = 0
         # loop while you haven't traveled the full distance
-        while self.drive_base.distance() * direction < (distance * direction):
-            print(str(self.prime_hub.imu.heading()) + " " + str(self.drive_base.distance()))
-            heading = self.prime_hub.imu.heading()
+        while drivenDistance < totalDistance:
+            #print(str(self.prime_hub.imu.heading()) + " " + str(self.drive_base.distance()))
+            #heading = self.prime_hub.imu.heading()
+            drivenDistance = self.drive_base.distance() * direction
+            remaining_distance = totalDistance - drivenDistance
+            # slow down for last 5 cm
+            if remaining_distance < 50:
+                self.drive_base.drive(speed * remaining_distance/75.0, 0)
+            wait(5)
         self.drive_base.stop()
 
     def driveUntilImpact(self, forward=True, speed=100):
@@ -213,14 +233,27 @@ class CoopBot:
         self.drive_base.stop()
        
 
-    def armUp(): 
-        print(bot.front_motor.control.stall_tolerances())
-        bot.front_motor.run_until_stalled(100, Stop.COAST)
+    def armUp(self): 
+        print(self.front_motor.control.stall_tolerances())
+        self.front_motor.run_until_stalled(FRONT_ARM_SPEED, Stop.COAST)
 
-    def armDown():
-        print(bot.front_motor.control.stall_tolerances())
-        bot.front_motor.run_until_stalled(-100, Stop.COAST)   
+    def armDown(self):
+        print(self.front_motor.control.stall_tolerances())
+        self.front_motor.run_until_stalled(-FRONT_ARM_SPEED, Stop.COAST)   
 
+    def moveArm(self, degrees):
+        self.front_motor.run_angle(speed=FRONT_ARM_SPEED, rotation_angle=degrees)
+
+    def moveTopArm(self, degrees):
+        self.top_motor.run_angle(speed=FRONT_ARM_SPEED, rotation_angle=degrees)
+
+    def topArmDown(self):
+            print(self.top_motor.control.stall_tolerances())
+            self.top_motor.run_until_stalled(-FRONT_ARM_SPEED, Stop.COAST)  
+
+    def topArmUp(self):
+            print(self.top_motor.control.stall_tolerances())
+            self.top_motor.run_until_stalled(FRONT_ARM_SPEED, Stop.COAST)   
 bot = CoopBot()
 
 
