@@ -6,6 +6,8 @@ def spinWheels():
     wait(600000)
 
 def main():
+    whatsonsale9()
+    return
     mapReveal()
     return
     #bot.front_motor.run_until_stalled(100, Stop.COAST, 50)
@@ -25,6 +27,8 @@ def main():
     bot.armDown()
 
 def mapReveal():
+    theforge()
+    return
     #bot.turn(45)
     #print(bot.drive_base.heading_control.target_tolerances())
     #return
@@ -48,14 +52,33 @@ def mapReveal():
     bot.topArmDown()
     
     bot.moveArm(100)
-    bot.driveStraight(-200) # back up 
+    bot.driveStraight(-200) # back up
+
+    #bot.turn(-110)
+    #bot.driveStraight(700)
+
+    bot.turn(70)
+    bot.driveStraight(-700, speed=400)
+
 
 def theforge():
-    bot.armUp()
+    bot.armDown()
+    #bot.armUp()
     bot.driveStraight(740)
     #bot.moveArm(20)
     bot.turn(30)
     bot.driveStraight(-75)
-    bot.turn(50)
-    bot.driveUntilImpact()
+    #bot.turn(50)
+    #bot.driveUntilImpact()
+
+def whatsonsale9():
+    bot.armDown()
+    bot.driveStraight(290)
+    bot.turn(-45)
+    bot.moveArm(100)
+    bot.driveStraight(120)
+    bot.moveArm(-100)
+    bot.moveArm(50)
+     
+#this line should always be last
 main()
