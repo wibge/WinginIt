@@ -6,6 +6,7 @@ def spinWheels():
     wait(600000)
 
 def main():
+  
     whatsonsale9()
     return
     mapReveal()
@@ -79,6 +80,22 @@ def whatsonsale9():
     bot.driveStraight(120)
     bot.moveArm(-100)
     bot.moveArm(50)
+    bot.armUp()
+
+    # head towards next mission
+    bot.turn(57)
+    bot.driveStraight(370)
+    bot.moveArm(-210)
+    
+    bot.turn(-30)
+    wait(200)
+    #goingtoforge
+    bot.turn(5)
+    bot.driveStraight(-5)
+    bot.armDown()
+    bot.turn(30)
+    return
+    bot.moveArm(-100)
      
 #this line should always be last
 main()
