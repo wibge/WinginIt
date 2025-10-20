@@ -28,19 +28,59 @@ class CoopBot:
         self.left_motor = Motor(Port.B, Direction.COUNTERCLOCKWISE)
         self.right_motor = Motor(Port.E, Direction.CLOCKWISE)
         # configure drive base with wheel diameter and distance apart
-        self.drive_base = DriveBase(self.left_motor, self.right_motor, 56, 94)
+        self.drive_base = DriveBase(self.left_motor, self.right_motor, 56, 99)
         self.front_motor.control.stall_tolerances(speed=100, time=100)
         self.top_motor.control.stall_tolerances(speed=100, time=50)
         #self.drive_base.heading_control.target_tolerances(position=5)
+        self.drive_base.reset()
+        wait(100)
+        self.prime_hub.imu.settings(heading_correction=363)
         self.drive_base.use_gyro(True)
         print(self.drive_base.settings())
+        
         self.drive_base.settings(straight_speed=SPEED, 
                                  straight_acceleration=SPEED_ACCELERATION,
                                  turn_rate=TURN_SPEED,
                                  turn_acceleration=TURN_ACCELERATION)
 
-    def turn(self, angle):
-        self.drive_base.turn(angle, wait=True)
+    def armWaitUntilDone(self, timeout=5000):
+        self.waitUntilDone(timeout, self.front_motor, stop=True)
+
+    def topArmWaitUntilDone(self, timeout=5000):
+        self.waitUntilDone(timeout, self.top_motor, stop=True)
+
+    def waitUntilDone(self, timeout=5000, item=None, stop=False):
+        if item == None:
+            item = self.drive_base
+
+        watch = StopWatch()
+        while watch.time() < timeout:
+            wait(5)
+            
+            print(item.done())
+            if item.done():
+                print("done after " + str(watch.time()))
+                return True
+            
+        if stop:
+            item.stop()
+            wait(10)
+        return False
+
+    def turn(self, angle, timeout=False, timeoutms=5000):
+        wait(10)
+        print("Start  yaw_angle:%f " % (self.prime_hub.imu.heading()))
+
+        print("before turn")
+        self.drive_base.turn(angle, wait=not timeout)
+        print("after turn")
+        
+        self.waitUntilDone(timeoutms, stop=timeout)
+        print("state " + str(self.drive_base.state()))
+        print("drive base done" + str(self.drive_base.done()))
+        
+      
+
         print("FINAL  yaw_angle:%f " % (self.prime_hub.imu.heading()))
         return
         self.drive_base.reset()
@@ -116,7 +156,6 @@ class CoopBot:
         speed = speed * direction
 
         # resets gyro/heading to zero, resets distance traveled to zero
-        self.drive_base.reset()
         wait(10) # wait in millisecond 
         self.drive_base.drive(speed, 0)  # start driving
         
@@ -135,6 +174,7 @@ class CoopBot:
                 self.drive_base.drive(speed * remaining_distance/75.0, 0)
             wait(5)
         self.drive_base.stop()
+        self.waitUntilDone()
 
     def driveUntilImpact(self, forward=True, speed=100):
         if not forward:
@@ -266,19 +306,28 @@ class CoopBot:
        
 
     def armUp(self): 
+        
         print(self.front_motor.control.stall_tolerances())
         self.front_motor.run_until_stalled(FRONT_ARM_SPEED, Stop.COAST)
 
     def armDown(self):
-        print(self.front_motor.control.stall_tolerances())
+        savetol = self.front_motor.control.stall_tolerances()
+        self.front_motor.control.stall_tolerances(speed=100, time=25)
         self.front_motor.run_until_stalled(-FRONT_ARM_SPEED, Stop.COAST)   
+        self.front_motor.control.stall_tolerances(*savetol)
+        self.front_motor.run_angle(speed=FRONT_ARM_SPEED, rotation_angle=20)
 
     def moveArm(self, degrees):
-        self.front_motor.run_angle(speed=FRONT_ARM_SPEED, rotation_angle=degrees)
+        self.front_motor.run_angle(speed=FRONT_ARM_SPEED, rotation_angle=degrees, wait=False)
+        self.armWaitUntilDone(timeout=3000)
+
 
     def moveTopArm(self, degrees):
         self.top_motor.run_angle(speed=FRONT_ARM_SPEED, 
-                                 rotation_angle=degrees)
+                                 rotation_angle=degrees,
+                                 wait=False)
+        
+        self.topArmWaitUntilDone(timeout=3000)
 
     def topArmDown(self):
             print(self.top_motor.control.stall_tolerances())

@@ -1,15 +1,45 @@
 from CoopBot import bot, LEFT, RIGHT, BLACK, WHITE
-from pybricks.tools import wait, StopWatch
+from pybricks.tools import wait, StopWatch, hub_menu
 
 def spinWheels():
     bot.drive_base.drive(200,0)
     wait(600000)
 
+def turnTest():
+    bot.armUp()
+    wait(1000)
+    bot.armDown()
+    wait(1000)
+    bot.armUp()
+    wait(1000)
+    bot.armDown()
+    wait(1000)
+
+    return
+    bot.prime_hub.imu.settings()
+    print(bot.drive_base.heading_control.target_tolerances())
+    bot.drive_base.heading_control.target_tolerances(speed=29, position=15) 
+    print(bot.drive_base.heading_control.pid())
+    #bot.drive_base.heading_control.pid(kd=1000, integral_deadzone=4)
+    #bot.drive_base.heading_control.
+    print(bot.drive_base.heading_control.target_tolerances())
+   
+    bot.turn(360, timeout=True, timeoutms=20000)
+    #bot.turn(90, timeout=True, timeoutms=2000)
+    #bot.turn(90, timeout=True, timeoutms=2000)
+
 def main():
-  
+    menu()
+
+
+    turnTest()
+    return
     whatsonsale9()
+
     return
     mapReveal()
+    return
+    turnTest()
     return
     #bot.front_motor.run_until_stalled(100, Stop.COAST, 50)
     print("Wingin' it")
@@ -28,13 +58,6 @@ def main():
     bot.armDown()
 
 def mapReveal():
-    theforge()
-    return
-    #bot.turn(45)
-    #print(bot.drive_base.heading_control.target_tolerances())
-    #return
-    #bot.driveStraight(500)
-    #return
 
     bot.armDown()
     wait(20)
@@ -83,19 +106,44 @@ def whatsonsale9():
     bot.armUp()
 
     # head towards next mission
-    bot.turn(57)
-    bot.driveStraight(370)
+    bot.turn(58)
+    bot.driveStraight(360)
     bot.moveArm(-210)
     
     bot.turn(-30)
-    wait(200)
+    bot.drive_base.turn(-30, wait = False)
+    wait(150)
+    bot.drive_base.brake()
+    bot.drive_base.stop()
+    wait(20)
     #goingtoforge
-    bot.turn(5)
-    bot.driveStraight(-5)
+    bot.turn(10)
+    bot.moveArm(30)
+    bot.turn(10)
+    bot.driveStraight(-30)
     bot.armDown()
-    bot.turn(30)
+    return
+    bot.driveStraight(-8)
+    bot.moveArm(-100)
+    bot.drive_base.turn(40, wait = False)
+    wait(150)
+    bot.drive_base.stop()
+    wait(20)
+    bot.driveStraight(-10)
+
+
     return
     bot.moveArm(-100)
-     
+    
+turnTest()
 #this line should always be last
-main()
+#main()
+#menu()
+def menu():
+    x=hub_menu("1","2","3")
+    if x=="1":
+        spinWheels()
+    if x=="2":
+        mapReveal()
+    if x=="3":
+        whatsonsale9()
