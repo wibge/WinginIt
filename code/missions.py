@@ -80,16 +80,15 @@ def whatsonsale9():
     bot.armUp()
 
     # head towards next mission
-    bot.turn(58)
-    bot.driveStraight(360)
+    bot.turn(50)
+    bot.driveStraight(365)
     bot.moveArm(-210)
     
-    bot.turn(-30, timeout=True, timeoutms=2000)
+    bot.turn(-40, timeout=True, timeoutms=2000)
  
     #goingtoforge
-    bot.turn(10)
     bot.moveArm(30)
-    bot.turn(10)
+    bot.turn(30)
     bot.driveStraight(-30)
     bot.armDown()
     return

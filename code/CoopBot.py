@@ -124,7 +124,7 @@ class CoopBot:
         # go backwards if distance is negative
         direction = 1 if distance > 0 else -1
         speed = speed * direction
-
+        self.drive_base.reset()
         # resets gyro/heading to zero, resets distance traveled to zero
         wait(10) # wait in millisecond 
         self.drive_base.drive(speed, 0)  # start driving
@@ -133,6 +133,7 @@ class CoopBot:
 
         totalDistance = distance * direction
         drivenDistance = 0
+        
         # loop while you haven't traveled the full distance
         while drivenDistance < totalDistance:
             #print(str(self.prime_hub.imu.heading()) + " " + str(self.drive_base.distance()))
