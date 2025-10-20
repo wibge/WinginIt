@@ -76,42 +76,12 @@ class CoopBot:
         print("after turn")
         
         self.waitUntilDone(timeoutms, stop=timeout)
+        wait(100)
         print("state " + str(self.drive_base.state()))
         print("drive base done" + str(self.drive_base.done()))
         
-      
-
         print("FINAL  yaw_angle:%f " % (self.prime_hub.imu.heading()))
-        return
-        self.drive_base.reset()
-        wait(10)
-
         
-        degrees = angle # make positive rotation clockwise
-        max_pct = 100
-        feedforward = 5
-        p_gain = 2
-        stop_error = 0.3
-        self.drive_base.reset()
-        wait(5)
-        error = degrees
-        velocity = 0
-        wheel_pct = 0
-        while stop_error < abs(error):
-            wheel_pct = int(min(max_pct, feedforward + abs(error * p_gain)))
-            direction = -1 if error > 0 else 1
-            velocity = -direction * (wheel_pct * TURN_SPEED)//100
-            #print("wheel_pct:%d        error:%f    yaw_angle:%f    velocity:%f" % (wheel_pct, error, self.prime_hub.imu.heading(), velocity))
-            self.drive_base.drive(0, velocity)            
-            error = degrees - self.prime_hub.imu.heading()
-        
-        self.drive_base.stop()
-        wait(10)
-        
-            
-        print("FINAL wheel_pct:%d        error:%f    yaw_angle:%f    velocity:%f" % (wheel_pct, error, self.prime_hub.imu.heading(), velocity))
-        #self.drive_base.turn(angle, wait=True)
-        print("FINAL  yaw_angle:%f " % (self.prime_hub.imu.heading()))
 
     def isSensorOnColor(self, side, color=BLACK):
         """ Tests if the sensor is on the color
@@ -315,7 +285,8 @@ class CoopBot:
         self.front_motor.control.stall_tolerances(speed=100, time=25)
         self.front_motor.run_until_stalled(-FRONT_ARM_SPEED, Stop.COAST)   
         self.front_motor.control.stall_tolerances(*savetol)
-        self.front_motor.run_angle(speed=FRONT_ARM_SPEED, rotation_angle=20)
+        self.front_motor.run_angle(speed=FRONT_ARM_SPEED, rotation_angle=20, wait=True)
+        wait(20)
 
     def moveArm(self, degrees):
         self.front_motor.run_angle(speed=FRONT_ARM_SPEED, rotation_angle=degrees, wait=False)

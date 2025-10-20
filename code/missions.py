@@ -31,32 +31,6 @@ def turnTest():
 def main():
     menu()
 
-
-    turnTest()
-    return
-    whatsonsale9()
-
-    return
-    mapReveal()
-    return
-    turnTest()
-    return
-    #bot.front_motor.run_until_stalled(100, Stop.COAST, 50)
-    print("Wingin' it")
-    #bot.driveStraight(500)
-    #bot.followline()
-    #bot.driveUntilImpact(forward=True)
-    #bot.colorPrint()
-    print() 
-    # HI CALLIOPEß
-    bot.armUp()
-    bot.armDown()
-    
-    wait(1000)
-    print(bot.front_motor.control.stall_tolerances())
-    bot.armUp()
-    bot.armDown()
-
 def mapReveal():
 
     bot.armDown()
@@ -110,12 +84,8 @@ def whatsonsale9():
     bot.driveStraight(360)
     bot.moveArm(-210)
     
-    bot.turn(-30)
-    bot.drive_base.turn(-30, wait = False)
-    wait(150)
-    bot.drive_base.brake()
-    bot.drive_base.stop()
-    wait(20)
+    bot.turn(-30, timeout=True, timeoutms=2000)
+ 
     #goingtoforge
     bot.turn(10)
     bot.moveArm(30)
@@ -135,10 +105,10 @@ def whatsonsale9():
     return
     bot.moveArm(-100)
     
-turnTest()
+#turnTest()
 #this line should always be last
 #main()
-#menu()
+
 def menu():
     x=hub_menu("1","2","3")
     if x=="1":
@@ -147,3 +117,5 @@ def menu():
         mapReveal()
     if x=="3":
         whatsonsale9()
+
+menu()
