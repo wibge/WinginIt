@@ -2,8 +2,12 @@ from CoopBot import bot, LEFT, RIGHT, BLACK, WHITE
 from pybricks.tools import wait, StopWatch, hub_menu
 
 def spinWheels():
-    bot.drive_base.drive(200,0)
+    #this function can be used for wheel cleaning and crossing over-
+    #to the other side of the map
+    bot.armUp()
+    bot.drive_base.drive(600,0)
     wait(600000)
+    
 
 def turnTest():
     bot.armUp()
@@ -80,17 +84,21 @@ def whatsonsale9():
     bot.armUp()
 
     # head towards next mission
-    bot.turn(50)
-    bot.driveStraight(365)
-    bot.moveArm(-210)
-    
-    bot.turn(-40, timeout=True, timeoutms=2000)
- 
-    #goingtoforge
-    bot.moveArm(30)
-    bot.turn(30)
-    bot.driveStraight(-30)
+    bot.turn(57)
     bot.armDown()
+    #bot.moveArm(-205)
+    bot.driveStraight(430)
+    #bot.moveArm(-205)
+    
+    bot.turn(-25, timeout=True, timeoutms=2000)
+    bot.driveStraight(-5)
+    bot.turn(-5, timeout=True, timeoutms=1000)
+    wait(500)
+    #goingtoforge
+    bot.turn(50, timeout=True, timeoutms=2000)
+    bot.driveStraight(-50)
+    bot.turn(30, timeout=True, timeoutms=2000)
+
     return
     bot.driveStraight(-8)
     bot.moveArm(-100)
@@ -104,17 +112,33 @@ def whatsonsale9():
     return
     bot.moveArm(-100)
     
-#turnTest()
-#this line should always be last
-#main()
+def minecarttop():
+    bot.armUp()
+    bot.moveArm(30)
+    bot.driveStraight(775)
+    bot.turn(90)
+    bot.driveStraight(320)
+    bot.turn(-90)
+    bot.driveStraight(-150)
+    bot.armDown()
+    bot.driveStraight(130)
+    bot.moveArm(100)
+    bot.driveStraight(5)
+    bot.armUp()
+    wait(1000)
+    bot.driveStraight(-15)
+    bot.armUp()
+    bot.turn(90)
+
 
 def menu():
-    x=hub_menu("1","2","3")
+    x=hub_menu("1","2","3","4")
     if x=="1":
         spinWheels()
     if x=="2":
         mapReveal()
     if x=="3":
         whatsonsale9()
-
+    if x=="4":
+        minecarttop()
 menu()
