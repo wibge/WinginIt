@@ -45,12 +45,12 @@ def mapReveal():
     wait(50)
 
     
-    bot.driveStraight(851,150) # long drive across mat
+    bot.driveStraight(785,150) # long drive across mat
     wait(50)
     bot.turn(-42)
     wait(50)
 
-    bot.driveStraight(106) # approach model
+    bot.driveStraight(88) # approach model
     bot.topArmDown()
     
     bot.moveArm(100)
