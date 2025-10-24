@@ -43,11 +43,13 @@ def mapReveal():
     bot.moveArm(50)
     wait(50)
 
+    #So you'd drive in a leftward arc with radius 1204mm for a distance of 883mm.
+    bot.drive_base.arc(-1204, distance=883)
     
-    bot.driveStraight(785,150) # long drive across mat
-    wait(50)
-    bot.turn(-42)
-    wait(50)
+    #bot.driveStraight(785,150) # long drive across mat
+    #wait(50)
+    #bot.turn(-42)
+    #wait(50)
 
     bot.driveStraight(88) # approach model
     bot.topArmDown()
