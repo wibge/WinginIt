@@ -57,7 +57,6 @@ class CoopBot:
         while watch.time() < timeout:
             wait(5)
             
-            print(item.done())
             if item.done():
                 print("done after " + str(watch.time()))
                 return True
@@ -289,9 +288,13 @@ class CoopBot:
         self.front_motor.run_angle(speed=FRONT_ARM_SPEED, rotation_angle=20, wait=True)
         wait(20)
 
-    def moveArm(self, degrees):
+    def moveArm(self, degrees, heavy=False):
+        savetol = self.front_motor.control.stall_tolerances()
+        if heavy:
+            self.front_motor.control.stall_tolerances(speed=50, time=100)
         self.front_motor.run_angle(speed=FRONT_ARM_SPEED, rotation_angle=degrees, wait=False)
         self.armWaitUntilDone(timeout=3000)
+        self.front_motor.control.stall_tolerances(*savetol)
 
 
     def moveTopArm(self, degrees):

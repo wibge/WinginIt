@@ -122,16 +122,30 @@ def minecarttop():
     bot.driveStraight(-150)
     bot.armDown()
     bot.driveStraight(130)
-    bot.moveArm(100)
+    bot.moveArm(100, heavy=True)
     bot.driveStraight(5)
+    bot.moveArm(100, heavy=True)
     bot.armUp()
     wait(1000)
-    bot.driveStraight(-15)
+   # bot.driveStraight(-15)
     bot.armUp()
+    bot.driveStraight(40)
     bot.turn(90)
+    bot.driveStraight(560)
+    bot.turn(90)
+    bot.driveStraight(-30)
+    bot.moveArm(-100, heavy=True)
+    bot.armDown()
+    bot.armUp()
+    bot.driveStraight(-75)
+    bot.turn(-45)
+    #bot.driveStraight(250)
 
 
 def menu():
+    bot.driveStraight(250, speed=100)
+    return
+
     x=hub_menu("1","2","3","4")
     if x=="1":
         spinWheels()
