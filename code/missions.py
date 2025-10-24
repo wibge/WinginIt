@@ -50,7 +50,7 @@ def mapReveal():
     bot.turn(-42)
     wait(50)
 
-    bot.driveStraight(6) # approach model
+    bot.driveStraight(106) # approach model
     bot.topArmDown()
     
     bot.moveArm(100)
