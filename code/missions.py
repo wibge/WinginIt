@@ -79,7 +79,7 @@ def whatsonsale9():
     bot.turn(-45)
     bot.moveArm(100)
     bot.driveStraight(120)
-    bot.moveArm(-100)
+    bot.moveArm(-100, heavy=True)
     bot.moveArm(50)
     bot.armUp()
 
@@ -152,9 +152,6 @@ def minecarttop():
 
     # returning to launch area
     bot.turn (-70)
-    #bot.driveStraight(350)
-    #bot.turn(40)
-    #bot.driveStraight(560)
 
     bot.drive_base.arc(700, angle=90)
 

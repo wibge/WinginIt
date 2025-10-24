@@ -360,7 +360,7 @@ class CoopBot:
         self.front_motor.run_angle(speed=FRONT_ARM_SPEED, rotation_angle=20, wait=True)
         wait(20)
 
-     def moveArm(self, degrees, heavy=False):
+    def moveArm(self, degrees, heavy=False):
         savetol = self.front_motor.control.stall_tolerances()
         speed = FRONT_ARM_SPEED
         if heavy:
@@ -369,6 +369,7 @@ class CoopBot:
         self.front_motor.run_angle(speed=speed, rotation_angle=degrees, wait=False)
         self.armWaitUntilDone(timeout=3000)
         self.front_motor.control.stall_tolerances(*savetol)
+
     def moveTopArm(self, degrees):
         self.top_motor.run_angle(speed=FRONT_ARM_SPEED, 
                                  rotation_angle=degrees,
