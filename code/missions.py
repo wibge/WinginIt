@@ -45,7 +45,7 @@ def mapReveal():
     wait(50)
 
     
-    bot.driveStraight(745,150) # long drive across mat
+    bot.driveStraight(740,150) # long drive across mat
     wait(50)
     bot.turn(-42)
     wait(50)
@@ -114,37 +114,52 @@ def whatsonsale9():
     
 def minecarttop():
     bot.armUp()
-    bot.moveArm(30)
-    bot.driveStraight(775)
+    bot.driveStraight(770)
     bot.turn(90)
     bot.driveStraight(320)
     bot.turn(-90)
     bot.driveStraight(-150)
     bot.armDown()
     bot.driveStraight(130)
+
+    #lifting minecart
     bot.moveArm(100, heavy=True)
     bot.driveStraight(5)
-    bot.moveArm(100, heavy=True)
+    bot.moveArm(60, heavy=True)
+    bot.driveStraight(10)
+    bot.moveArm(20, heavy=True)
+    bot.driveStraight(30)
+    bot.moveArm(20, heavy=True)
+    bot.driveStraight(35)
+    wait(2000)
+
+    bot.driveStraight(-45)
     bot.armUp()
-    wait(1000)
-   # bot.driveStraight(-15)
-    bot.armUp()
-    bot.driveStraight(40)
+
+    #bot.driveStraight(20)
     bot.turn(90)
     bot.driveStraight(560)
     bot.turn(90)
     bot.driveStraight(-30)
-    bot.moveArm(-100, heavy=True)
-    bot.armDown()
+    
+    bot.armDown() # lowering basket
     bot.armUp()
-    bot.driveStraight(-75)
-    bot.turn(-45)
-    #bot.driveStraight(250)
+    bot.driveStraight(-75) #backing up from basket
+
+    #trying to lift platform
+    #bot.turn(-45)
+    #bot.driveStraight(275, speed=100)
+
+    # returning to launch area
+    bot.turn (-70)
+    #bot.driveStraight(350)
+    #bot.turn(40)
+    #bot.driveStraight(560)
+
+    bot.drive_base.arc(700, angle=90)
 
 
 def menu():
-    bot.driveStraight(250, speed=100)
-    return
 
     x=hub_menu("1","2","3","4")
     if x=="1":

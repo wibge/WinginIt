@@ -41,11 +41,17 @@ class CoopBot:
                                  straight_acceleration=SPEED_ACCELERATION,
                                  turn_rate=TURN_SPEED,
                                  turn_acceleration=TURN_ACCELERATION)
-        
+
     def reset(self):
         self.drive_base.reset()
         wait(100)
         self.prime_hub.imu.settings(heading_correction=363)
+
+    def backToWall(self): 
+        self.drive_base.drive(-50)
+        watch = StopWatch()
+        while watch.time() < 10:
+            pass
 
     def armWaitUntilDone(self, timeout=5000):
         self.waitUntilDone(timeout, self.front_motor, stop=True)
@@ -133,18 +139,17 @@ class CoopBot:
 
     def turn(self, angle, timeout=False, timeoutms=5000):
         wait(10)
-        print("Start  yaw_angle:%f " % (self.prime_hub.imu.heading()))
-
-        print("before turn")
+        start_angle = self.prime_hub.imu.heading()
+    
         self.drive_base.turn(angle, wait=not timeout)
-        print("after turn")
-        
+   
         self.waitUntilDone(timeoutms, stop=timeout)
         wait(100)
         print("state " + str(self.drive_base.state()))
         print("drive base done" + str(self.drive_base.done()))
         
-        print("FINAL  yaw_angle:%f " % (self.prime_hub.imu.heading()))
+        end_angle = self.prime_hub.imu.heading()
+        print("FINAL requested %f actual:%f " % (angle, end_angle - start_angle))
         
 
     def isSensorOnColor(self, side, color=BLACK):
@@ -357,9 +362,11 @@ class CoopBot:
 
      def moveArm(self, degrees, heavy=False):
         savetol = self.front_motor.control.stall_tolerances()
+        speed = FRONT_ARM_SPEED
         if heavy:
             self.front_motor.control.stall_tolerances(speed=50, time=100)
-        self.front_motor.run_angle(speed=FRONT_ARM_SPEED, rotation_angle=degrees, wait=False)
+            speed = speed / 2
+        self.front_motor.run_angle(speed=speed, rotation_angle=degrees, wait=False)
         self.armWaitUntilDone(timeout=3000)
         self.front_motor.control.stall_tolerances(*savetol)
     def moveTopArm(self, degrees):
