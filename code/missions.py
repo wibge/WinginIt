@@ -32,12 +32,11 @@ def turnTest():
     #bot.turn(90, timeout=True, timeoutms=2000)
     #bot.turn(90, timeout=True, timeoutms=2000)
 
-def main():
-    menu()
 
 def mapReveal():
-
+    bot.backToWall()
     bot.armDown()
+    bot.topArmDown()
     wait(20)
     bot.moveTopArm(130)
     wait(20)
@@ -158,6 +157,19 @@ def minecarttop():
 
 def menu():
 
+    bot.smartTurn(45)
+    wait(1000)
+
+    bot.smartTurn(45)
+    wait(1000)
+
+    bot.smartTurn(45)
+    wait(1000)
+
+    bot.smartTurn(45)
+    wait(1000)
+   
+    return
     x=hub_menu("1","2","3","4")
     if x=="1":
         spinWheels()

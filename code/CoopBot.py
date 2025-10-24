@@ -48,10 +48,12 @@ class CoopBot:
         self.prime_hub.imu.settings(heading_correction=363)
 
     def backToWall(self): 
-        self.drive_base.drive(-50)
+        self.drive_base.drive(-50, 0)
         watch = StopWatch()
-        while watch.time() < 10:
+        while watch.time() < 100:
             pass
+        self.drive_base.stop()
+        wait(100)
 
     def armWaitUntilDone(self, timeout=5000):
         self.waitUntilDone(timeout, self.front_motor, stop=True)
@@ -85,7 +87,6 @@ class CoopBot:
 
         Args:
             target_angle: Desired heading in degrees
-            gyro: Gyro sensor object
         """
         # Reset gyro angle to 0 at start
         self.reset()
@@ -100,7 +101,7 @@ class CoopBot:
         previous_error = 0
 
         # Tolerance
-        tolerance = 0.5
+        tolerance = 0.25
 
         watch = StopWatch()
         
@@ -112,7 +113,7 @@ class CoopBot:
             error = target_angle - current_angle
 
             # Check if within tolerance
-            if abs(error) < tolerance or watch.time() < timeoutms:
+            if abs(error) < tolerance or watch.time() > timeoutms:
                 bot.left_motor.stop()
                 bot.right_motor.stop()
                 break
@@ -136,6 +137,8 @@ class CoopBot:
 
             # Small delay for stability
             wait(10)
+
+        print("SmartTurn target %f actual:%f time %f" % (target_angle, self.heading(), watch.time()))
 
     def turn(self, angle, timeout=False, timeoutms=5000):
         wait(10)
