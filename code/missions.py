@@ -37,29 +37,26 @@ def mapReveal():
     bot.backToWall()
     bot.armDown()
     bot.topArmDown()
-    wait(20)
-    bot.moveTopArm(130)
-    wait(20)
+    wait(200)
+    bot.moveTopArm(200)
     bot.moveArm(50)
     wait(50)
 
-    #So you'd drive in a leftward arc with radius 1204mm for a distance of 883mm.
-    bot.drive_base.arc(-1204, distance=883)
     
-    #bot.driveStraight(785,150) # long drive across mat
-    #wait(50)
-    #bot.turn(-42)
-    #wait(50)
+    bot.driveStraight(785,150) # long drive across mat
+    wait(50)
+    bot.smartTurn(-40)
+    wait(50)
 
-    bot.driveStraight(88) # approach model
+    bot.driveStraight(95) # approach model
     bot.topArmDown()
     
-    bot.moveArm(100)
-    bot.driveStraight(-200) # back up
+    bot.moveArm(100) # lift up grass
+    bot.driveStraight(-30) # back up, flip switch
+    bot.moveTopArm(100) # move top arm, so it doesn't get caught on loop
+    bot.driveStraight(-170)
 
-    #bot.turn(-110)
-    #bot.driveStraight(700)
-
+    #return home
     bot.turn(70)
     bot.driveStraight(-700, speed=400)
 
@@ -75,17 +72,18 @@ def theforge():
     #bot.driveUntilImpact()
 
 def whatsonsale9():
+    bot.backToWall()
     bot.armDown()
     bot.driveStraight(290)
-    bot.turn(-45)
+    bot.smartTurn(-45)
     bot.moveArm(100)
-    bot.driveStraight(120)
-    bot.moveArm(-100, heavy=True)
+    bot.driveStraight(110)
+    bot.moveArm(-120, heavy=True)
     bot.moveArm(50)
     bot.armUp()
 
     # head towards next mission
-    bot.turn(57)
+    bot.smartTurn(56)
     bot.armDown()
     #bot.moveArm(-205)
     bot.driveStraight(430)
@@ -116,9 +114,9 @@ def whatsonsale9():
 def minecarttop():
     bot.armUp()
     bot.driveStraight(770)
-    bot.turn(90)
-    bot.driveStraight(320)
-    bot.turn(-90)
+    bot.smartTurn(90)
+    bot.driveStraight(335)
+    bot.smartTurn(-90)
     bot.driveStraight(-150)
     bot.armDown()
     bot.driveStraight(130)
@@ -137,10 +135,9 @@ def minecarttop():
     bot.driveStraight(-45)
     bot.armUp()
 
-    #bot.driveStraight(20)
-    bot.turn(90)
+    bot.smartTurn(90)
     bot.driveStraight(560)
-    bot.turn(90)
+    bot.smartTurn(90)
     bot.driveStraight(-30)
     
     bot.armDown() # lowering basket
@@ -152,26 +149,12 @@ def minecarttop():
     #bot.driveStraight(275, speed=100)
 
     # returning to launch area
-    bot.turn (-70)
+    bot.smartTurn(-70)
 
     bot.drive_base.arc(700, angle=90)
 
 
 def menu():
-
-    bot.smartTurn(45)
-    wait(1000)
-
-    bot.smartTurn(45)
-    wait(1000)
-
-    bot.smartTurn(45)
-    wait(1000)
-
-    bot.smartTurn(45)
-    wait(1000)
-   
-    return
     x=hub_menu("1","2","3","4")
     if x=="1":
         spinWheels()

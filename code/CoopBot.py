@@ -50,7 +50,8 @@ class CoopBot:
     def backToWall(self): 
         self.drive_base.drive(-50, 0)
         watch = StopWatch()
-        while watch.time() < 100:
+        while watch.time() < 200:
+            wait(10)
             pass
         self.drive_base.stop()
         wait(100)
@@ -386,7 +387,8 @@ class CoopBot:
 
     def topArmUp(self):
             print(self.top_motor.control.stall_tolerances())
-            self.top_motor.run_until_stalled(FRONT_ARM_SPEED, Stop.COAST)   
+            self.top_motor.run_until_stalled(FRONT_ARM_SPEED, Stop.COAST) 
+              
 bot = CoopBot()
 
 
