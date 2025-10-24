@@ -126,11 +126,11 @@ def minecarttop():
     #lifting minecart
     bot.moveArm(100, heavy=True)
     bot.driveStraight(5)
-    bot.moveArm(65, heavy=True)
+    bot.moveArm(60, heavy=True)
     bot.driveStraight(10)
-    bot.moveArm(35, heavy=True)
+    bot.moveArm(20, heavy=True)
     bot.driveStraight(30)
-    bot.moveArm(25, heavy=True)
+    bot.moveArm(45, heavy=True)
     wait(1000)
 
    # bot.driveStraight(-15)
