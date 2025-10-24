@@ -112,11 +112,12 @@ def whatsonsale9():
     bot.moveArm(-100)
     
 def minecarttop():
+    bot.backToWall()
     bot.armUp()
     bot.driveStraight(770)
-    bot.smartTurn(90)
-    bot.driveStraight(335)
-    bot.smartTurn(-90)
+    bot.smartTurn(88)
+    bot.driveStraight(310 )
+    bot.smartTurn(-88)
     bot.driveStraight(-150)
     bot.armDown()
     bot.driveStraight(130)
@@ -133,11 +134,12 @@ def minecarttop():
     wait(2000)
 
     bot.driveStraight(-45)
+
     bot.armUp()
 
-    bot.smartTurn(90)
-    bot.driveStraight(560)
-    bot.smartTurn(90)
+    bot.smartTurn(88)
+    bot.driveStraight(550)
+    bot.smartTurn(88)
     bot.driveStraight(-30)
     
     bot.armDown() # lowering basket
