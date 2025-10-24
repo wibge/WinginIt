@@ -45,7 +45,7 @@ def mapReveal():
     wait(50)
 
     
-    bot.driveStraight(745,150) # long drive across mat
+    bot.driveStraight(740,150) # long drive across mat
     wait(50)
     bot.turn(-42)
     wait(50)
@@ -114,8 +114,7 @@ def whatsonsale9():
     
 def minecarttop():
     bot.armUp()
-    bot.moveArm(30)
-    bot.driveStraight(775)
+    bot.driveStraight(770)
     bot.turn(90)
     bot.driveStraight(320)
     bot.turn(-90)
@@ -130,17 +129,19 @@ def minecarttop():
     bot.driveStraight(10)
     bot.moveArm(20, heavy=True)
     bot.driveStraight(30)
-    bot.moveArm(45, heavy=True)
-    wait(1000)
+    bot.moveArm(20, heavy=True)
+    bot.driveStraight(35)
+    wait(2000)
 
-   # bot.driveStraight(-15)
+    bot.driveStraight(-45)
+    bot.armUp()
+
     #bot.driveStraight(20)
     bot.turn(90)
     bot.driveStraight(560)
     bot.turn(90)
     bot.driveStraight(-30)
     
-    #bot.moveArm(-100, heavy=True)
     bot.armDown() # lowering basket
     bot.armUp()
     bot.driveStraight(-75) #backing up from basket

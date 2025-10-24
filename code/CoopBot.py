@@ -42,6 +42,16 @@ class CoopBot:
                                  straight_acceleration=SPEED_ACCELERATION,
                                  turn_rate=TURN_SPEED,
                                  turn_acceleration=TURN_ACCELERATION)
+        
+    def backToWall(self):
+        pass
+        #self.drive_base.
+        
+        self.drive_base.drive(-50)
+        watch = StopWatch()
+        while watch.time() < 10:
+            pass
+        #self.drive_base.
 
     def armWaitUntilDone(self, timeout=5000):
         self.waitUntilDone(timeout, self.front_motor, stop=True)
