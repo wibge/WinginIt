@@ -31,10 +31,9 @@ class CoopBot:
         self.drive_base = DriveBase(self.left_motor, self.right_motor, 56, 99)
         self.front_motor.control.stall_tolerances(speed=100, time=100)
         self.top_motor.control.stall_tolerances(speed=100, time=50)
-        #self.drive_base.heading_control.target_tolerances(position=5)
-        self.drive_base.reset()
-        wait(100)
-        self.prime_hub.imu.settings(heading_correction=363)
+
+        self.reset()
+        
         self.drive_base.use_gyro(True)
         print(self.drive_base.settings())
         
@@ -42,6 +41,11 @@ class CoopBot:
                                  straight_acceleration=SPEED_ACCELERATION,
                                  turn_rate=TURN_SPEED,
                                  turn_acceleration=TURN_ACCELERATION)
+        
+    def reset(self):
+        self.drive_base.reset()
+        wait(100)
+        self.prime_hub.imu.settings(heading_correction=363)
 
     def armWaitUntilDone(self, timeout=5000):
         self.waitUntilDone(timeout, self.front_motor, stop=True)
@@ -56,7 +60,7 @@ class CoopBot:
         watch = StopWatch()
         while watch.time() < timeout:
             wait(5)
-            
+
             if item.done():
                 print("done after " + str(watch.time()))
                 return True
@@ -65,6 +69,67 @@ class CoopBot:
             item.stop()
             wait(10)
         return False
+    
+    def heading(self):
+        return self.prime_hub.imu.heading()
+    
+    def smartTurn(self, target_angle, timeoutms=5000):
+        """
+        Turn the robot to a specific angle using gyro feedback.
+
+        Args:
+            target_angle: Desired heading in degrees
+            gyro: Gyro sensor object
+        """
+        # Reset gyro angle to 0 at start
+        self.reset()
+
+        # PID constants - tune these for your robot
+        kp = 1.5  # Proportional gain
+        ki = 0.01  # Integral gain
+        kd = 0.5  # Derivative gain
+
+        # PID variables
+        integral = 0
+        previous_error = 0
+
+        # Tolerance
+        tolerance = 0.5
+
+        watch = StopWatch()
+        
+        while True:
+            # Get current angle
+            current_angle = self.heading()
+
+            # Calculate error
+            error = target_angle - current_angle
+
+            # Check if within tolerance
+            if abs(error) < tolerance or watch.time() < timeoutms:
+                bot.left_motor.stop()
+                bot.right_motor.stop()
+                break
+
+            # PID calculations
+            integral += error
+            derivative = error - previous_error
+
+            # Calculate motor speed
+            speed = (kp * error) + (ki * integral) + (kd * derivative)
+
+            # Limit speed to reasonable range
+            speed = max(min(speed, 200), -200)
+
+            # Apply speed to motors (opposite directions for turning)
+            bot.left_motor.run(speed)
+            bot.right_motor.run(-speed)
+
+            # Update previous error
+            previous_error = error
+
+            # Small delay for stability
+            wait(10)
 
     def turn(self, angle, timeout=False, timeoutms=5000):
         wait(10)
@@ -195,26 +260,28 @@ class CoopBot:
         Args:
             speed (int, optional): in degrees/s. If negative, robot will go backwards. Defaults to 100.
         """
-        self.drive_base.reset()
-        self.drive_base.settings(straight_speed=speed)
-        self.drive_base.drive(speed, 0)
+        self.drive_base.drive(speed, 0) 
     
         while True:
+            # get sensor values, <=0 is on color, low numbers are partially on
             left_sensor_on = self.isSensorOnColor(LEFT, BLACK)
             right_sensor_on = self.isSensorOnColor(RIGHT, BLACK)
             print("L: " + str(self.left_sensor.reflection()) + ", R: " + str(self.right_sensor.reflection()))
 
             if left_sensor_on <= 0 and right_sensor_on <= 0:
+                # both sensors on black! we can stop
                 break
-
 
             #print(str(self.prime_hub.imu.heading()) + " " + str(self.drive_base.distance()))
             current_speed = speed
+
+            # slow down if one of the sensors is partially on black
             if left_sensor_on < 5 or right_sensor_on < 5:
                 current_speed = max(speed, 25)
             elif left_sensor_on < 8 or right_sensor_on < 8:
                 current_speed = max(speed, 50)
 
+            # set new speeds or stop
             if left_sensor_on > 0:
                 self.left_motor.run(current_speed)
             else:
@@ -288,15 +355,13 @@ class CoopBot:
         self.front_motor.run_angle(speed=FRONT_ARM_SPEED, rotation_angle=20, wait=True)
         wait(20)
 
-    def moveArm(self, degrees, heavy=False):
+     def moveArm(self, degrees, heavy=False):
         savetol = self.front_motor.control.stall_tolerances()
         if heavy:
             self.front_motor.control.stall_tolerances(speed=50, time=100)
         self.front_motor.run_angle(speed=FRONT_ARM_SPEED, rotation_angle=degrees, wait=False)
         self.armWaitUntilDone(timeout=3000)
         self.front_motor.control.stall_tolerances(*savetol)
-
-
     def moveTopArm(self, degrees):
         self.top_motor.run_angle(speed=FRONT_ARM_SPEED, 
                                  rotation_angle=degrees,
