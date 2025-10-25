@@ -9,28 +9,6 @@ def spinWheels():
     wait(600000)
     
 
-def turnTest():
-    bot.armUp()
-    wait(1000)
-    bot.armDown()
-    wait(1000)
-    bot.armUp()
-    wait(1000)
-    bot.armDown()
-    wait(1000)
-
-    return
-    bot.prime_hub.imu.settings()
-    print(bot.drive_base.heading_control.target_tolerances())
-    bot.drive_base.heading_control.target_tolerances(speed=29, position=15) 
-    print(bot.drive_base.heading_control.pid())
-    #bot.drive_base.heading_control.pid(kd=1000, integral_deadzone=4)
-    #bot.drive_base.heading_control.
-    print(bot.drive_base.heading_control.target_tolerances())
-   
-    bot.turn(360, timeout=True, timeoutms=20000)
-    #bot.turn(90, timeout=True, timeoutms=2000)
-    #bot.turn(90, timeout=True, timeoutms=2000)
 
 
 def mapReveal():
@@ -45,7 +23,7 @@ def mapReveal():
     
     bot.driveStraight(785,150) # long drive across mat
     wait(50)
-    bot.smartTurn(-40)
+    bot.turn(-40)
     wait(50)
 
     bot.driveStraight(95) # approach model
@@ -74,19 +52,24 @@ def theforge():
 def whatsonsale9():
     bot.backToWall()
     bot.armDown()
-    bot.driveStraight(290)
-    bot.smartTurn(-45)
+    wait(50)
     bot.moveArm(100)
-    bot.driveStraight(110)
+    bot.driveStraight(290)
+    bot.turn(-45)
+    
+    bot.driveStraight(115)
     bot.moveArm(-120, heavy=True)
     bot.moveArm(50)
+    bot.driveStraight(-20)
     bot.armUp()
+    bot.driveStraight(20)
 
     # head towards next mission
-    bot.smartTurn(56)
+    bot.turn(56.0)
+    wait(100)
     bot.armDown()
     #bot.moveArm(-205)
-    bot.driveStraight(430)
+    bot.driveStraight(425)
     #bot.moveArm(-205)
     
     bot.turn(-25, timeout=True, timeoutms=2000)
@@ -114,13 +97,13 @@ def whatsonsale9():
 def minecarttop():
     bot.backToWall()
     bot.armUp()
-    bot.driveStraight(770)
-    bot.smartTurn(88)
-    bot.driveStraight(310 )
-    bot.smartTurn(-88)
-    bot.driveStraight(-150)
+    bot.driveStraight(760)
+    bot.turn(90)
+    bot.driveStraight(325 )
+    bot.turn(-90)
+    bot.driveStraight(-130)
     bot.armDown()
-    bot.driveStraight(130)
+    bot.driveStraight(115)
 
     #lifting minecart
     bot.moveArm(100, heavy=True)
@@ -128,7 +111,7 @@ def minecarttop():
     bot.moveArm(60, heavy=True)
     bot.driveStraight(10)
     bot.moveArm(20, heavy=True)
-    bot.driveStraight(30)
+    bot.driveStraight(35)
     bot.moveArm(20, heavy=True)
     bot.driveStraight(35)
     wait(2000)
@@ -137,26 +120,36 @@ def minecarttop():
 
     bot.armUp()
 
-    bot.smartTurn(88)
+    bot.turn(90)
     bot.driveStraight(550)
-    bot.smartTurn(88)
-    bot.driveStraight(-30)
+    bot.turn(90)
+    bot.driveStraight(-50)
     
     bot.armDown() # lowering basket
     bot.armUp()
-    bot.driveStraight(-75) #backing up from basket
+    bot.driveStraight(-55) #backing up from basket
 
     #trying to lift platform
     #bot.turn(-45)
     #bot.driveStraight(275, speed=100)
 
     # returning to launch area
-    bot.smartTurn(-70)
+    bot.turn(-80)
 
     bot.drive_base.arc(700, angle=90)
 
+def turntest():
+    bot.smartTurn(87)
+    wait(1000)
+    bot.smartTurn(87)
+    wait(1000)
+    bot.smartTurn(87)
+    wait(1000)
+
+    return
 
 def menu():
+    
     x=hub_menu("1","2","3","4")
     if x=="1":
         spinWheels()

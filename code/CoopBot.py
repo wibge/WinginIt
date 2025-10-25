@@ -115,9 +115,16 @@ class CoopBot:
 
             # Check if within tolerance
             if abs(error) < tolerance or watch.time() > timeoutms:
+                bot.left_motor.brake()
+                bot.right_motor.brake()
                 bot.left_motor.stop()
                 bot.right_motor.stop()
-                break
+                wait(100)
+                current_angle = self.heading()
+                error = target_angle - current_angle
+
+                if abs(error) < tolerance or watch.time() > timeoutms:
+                    break
 
             # PID calculations
             integral += error
@@ -137,8 +144,11 @@ class CoopBot:
             previous_error = error
 
             # Small delay for stability
-            wait(10)
+            wait(5)
 
+        wait(100)
+        bot.left_motor.stop()
+        bot.right_motor.stop()
         print("SmartTurn target %f actual:%f time %f" % (target_angle, self.heading(), watch.time()))
 
     def turn(self, angle, timeout=False, timeoutms=5000):
