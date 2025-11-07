@@ -29,7 +29,7 @@ def mapReveal():
     bot.driveStraight(95) # approach model
     bot.topArmDown()
     
-    bot.moveArm(120) # lift up grass
+    bot.moveArm(110, heavy=True) # lift up grass
     bot.driveStraight(-30) # back up, flip switch
     bot.moveTopArm(100) # move top arm, so it doesn't get caught on loop
     bot.driveStraight(-170)
