@@ -4,7 +4,6 @@ from pybricks.tools import wait, StopWatch, hub_menu
 def spinWheels():
     #this function can be used for wheel cleaning and crossing over-
     #to the other side of the map
-    bot.armUp()
     bot.drive_base.drive(600,0)
     wait(600000)
     
@@ -12,27 +11,26 @@ def spinWheels():
 
 
 def mapReveal():
-    bot.backToWall()
     bot.armDown()
-    bot.topArmDown()
+    #bot.topArmDown()
     wait(200)
-    bot.moveTopArm(200)
+    # bot.moveTopArm(200)
     bot.moveArm(50)
     wait(50)
 
-    
-    bot.driveStraight(785,150) # long drive across mat
+
+    bot.driveStraight(780,150) # long drive across mat
     wait(50)
-    bot.turn(-40)
+    bot.turn(-41)
     wait(50)
 
     bot.driveStraight(95) # approach model
     bot.topArmDown()
     
     bot.moveArm(100) # lift up grass
-    bot.driveStraight(-30) # back up, flip switch
+    bot.driveStraight(30) # forward, push grass
     bot.moveTopArm(100) # move top arm, so it doesn't get caught on loop
-    bot.driveStraight(-170)
+    bot.driveStraight(-210)
 
     #return home
     bot.turn(70)
@@ -54,7 +52,7 @@ def whatsonsale9():
     bot.armDown()
     wait(50)
     bot.moveArm(100)
-    bot.driveStraight(290)
+    bot.driveStraight(305)
     bot.turn(-45)
     
     bot.driveStraight(115)
@@ -69,7 +67,7 @@ def whatsonsale9():
     wait(100)
     bot.armDown()
     #bot.moveArm(-205)
-    bot.driveStraight(425)
+    bot.driveStraight(450)
     #bot.moveArm(-205)
     
     bot.turn(-25, timeout=True, timeoutms=2000)
@@ -80,7 +78,22 @@ def whatsonsale9():
     bot.turn(50, timeout=True, timeoutms=2000)
     bot.driveStraight(-50)
     bot.turn(30, timeout=True, timeoutms=2000)
+    bot.turn(-10)
+    bot.turn(15)
+    bot.driveStraight(-100)
 
+
+    return
+    bot.turn(-90)
+    bot.driveStraight(180)
+    bot.turn(-90)
+    bot.driveStraight(100)
+    bot.turn(-90)
+    bot.moveArm(50)
+    bot.driveStraight(75)
+
+    
+   
     return
     bot.driveStraight(-8)
     bot.moveArm(-100)
@@ -95,9 +108,9 @@ def whatsonsale9():
     bot.moveArm(-100)
     
 def minecarttop():
-    bot.backToWall()
+    #bot.backToWall()
     bot.armUp()
-    bot.driveStraight(760)
+    bot.driveStraight(750)
     bot.turn(90)
     bot.driveStraight(325 )
     bot.turn(-90)
