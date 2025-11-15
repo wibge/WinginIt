@@ -11,7 +11,7 @@ RIGHT = 0
 BLACK = 1
 WHITE = 0
 
-FRONT_ARM_SPEED = 300
+FRONT_ARM_SPEED = 400
 TOP_ARM_SPEED = 200
 TURN_SPEED = 100
 TURN_ACCELERATION = 400
@@ -383,12 +383,12 @@ class CoopBot:
         self.front_motor.run_until_stalled(FRONT_ARM_SPEED, Stop.COAST)
         self.front_motor.run_angle(speed=FRONT_ARM_SPEED, rotation_angle=-20, wait=True)
 
-    def armDown(self):
+    def armDown(self, armspeed=200):
         savetol = self.front_motor.control.stall_tolerances()
         self.front_motor.control.stall_tolerances(speed=150, time=25)
-        self.front_motor.run_until_stalled(-FRONT_ARM_SPEED, Stop.COAST)   
+        self.front_motor.run_until_stalled(-armspeed, Stop.COAST)   
         self.front_motor.control.stall_tolerances(*savetol)
-        self.front_motor.run_angle(speed=FRONT_ARM_SPEED, rotation_angle=20, wait=True)
+        self.front_motor.run_angle(speed=armspeed, rotation_angle=20, wait=True)
         wait(20)
 
     def moveArm(self, degrees, heavy=False):

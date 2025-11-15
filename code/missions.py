@@ -7,9 +7,6 @@ def spinWheels():
     bot.drive_base.drive(600,0)
     wait(600000)
     
-
-
-
 def mapReveal():
     bot.armDown()
     #bot.topArmDown()
@@ -36,7 +33,6 @@ def mapReveal():
     bot.turn(70)
     bot.driveStraight(-700, speed=400)
 
-
 def theforge():
     bot.armDown()
     #bot.armUp()
@@ -53,7 +49,7 @@ def whatsonsale9():
     wait(20)
     bot.moveArm(100)
     bot.driveStraight(290)
-    bot.smartTurn(-46)
+    bot.smartTurn(-50)
     
     bot.driveStraight(102)
     bot.moveArm(-120, heavy=True)
@@ -63,7 +59,7 @@ def whatsonsale9():
     bot.driveStraight(20)
 
     # head towards next mission
-    bot.smartTurn(56.0)
+    bot.smartTurn(58.0)
     wait(50)
     bot.armDown()
     #bot.moveArm(-205)
@@ -83,12 +79,8 @@ def whatsonsale9():
     bot.driveStraight(-100, speed=300)
     #return to home
     bot.turn(-80)
-    bot.driveStraight(-700, speed=600)
-
-
-
+    bot.driveStraight(-700, speed=800)
    
-    
 def minecarttop():
     bot.drive_base.settings(straight_speed=400, 
                         straight_acceleration=150,
@@ -103,7 +95,7 @@ def minecarttop():
     bot.smartTurn(-90)
     bot.driveStraight(-90)
     bot.armDown()
-    bot.driveStraight(55)
+    bot.driveStraight(70)
 
     #lifting minecart
     bot.moveArm(100, heavy=True)
@@ -125,9 +117,12 @@ def minecarttop():
     bot.turn(90)
     bot.driveStraight(-25)
     
-    bot.armDown() # lowering basket
+    bot.armDown(armspeed=300) # lowering basket
     bot.armUp()
-    bot.driveStraight(-55) #backing up from basket
+    bot.driveStraight(-20)
+    bot.armDown(armspeed=300)
+    bot.armUp()
+    bot.driveStraight(-35) #backing up from basket
 
     #trying to lift platform
     #bot.turn(-45)
@@ -181,9 +176,8 @@ def heavyLifting():
     bot.driveStraight(-500)
 
 
-    #bot.driveStraight(645)
-    #bot.turn(45)
-
+    
+    
     return
 
 def menu():
