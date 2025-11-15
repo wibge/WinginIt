@@ -123,7 +123,7 @@ class CoopBot:
                 bot.right_motor.brake()
                 bot.left_motor.stop()
                 bot.right_motor.stop()
-                wait(75)
+                wait(100)
                 current_angle = self.heading()
                 error = target_angle - current_angle
                 print(".   after.. error %.3f actual:%.3f time %.2f" % (error, self.heading(), watch.time()))
@@ -378,7 +378,7 @@ class CoopBot:
         
         print(self.front_motor.control.stall_tolerances())
         self.front_motor.run_until_stalled(FRONT_ARM_SPEED, Stop.COAST)
-        self.front_motor.run_angle(speed=FRONT_ARM_SPEED, rotation_angle=-10, wait=True)
+        self.front_motor.run_angle(speed=FRONT_ARM_SPEED, rotation_angle=-20, wait=True)
 
     def armDown(self):
         savetol = self.front_motor.control.stall_tolerances()
@@ -395,7 +395,7 @@ class CoopBot:
             self.front_motor.control.stall_tolerances(speed=50, time=100)
             speed = speed / 2
         self.front_motor.run_angle(speed=speed, rotation_angle=degrees, wait=False)
-        self.armWaitUntilDone(timeout=3000)
+        self.armWaitUntilDone(timeout=1500)
         self.front_motor.control.stall_tolerances(*savetol)
 
     def moveTopArm(self, degrees):

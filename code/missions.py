@@ -13,8 +13,8 @@ def spinWheels():
 def mapReveal():
     bot.armDown()
     #bot.topArmDown()
-    wait(200)
-    # bot.moveTopArm(200)
+    wait(100)
+    bot.moveTopArm(50)
     bot.moveArm(50)
     wait(50)
 
@@ -87,44 +87,23 @@ def whatsonsale9():
 
 
 
-    return
-    bot.turn(-90)
-    bot.driveStraight(180)
-    bot.turn(-90)
-    bot.driveStraight(100)
-    bot.turn(-90)
-    bot.moveArm(50)
-    bot.driveStraight(75)
-
-    
    
-    return
-    bot.driveStraight(-8)
-    bot.moveArm(-100)
-    bot.drive_base.turn(40, wait = False)
-    wait(150)
-    bot.drive_base.stop()
-    wait(20)
-    bot.driveStraight(-10)
-
-
-    return
-    bot.moveArm(-100)
     
 def minecarttop():
-    bot.drive_base.settings(straight_speed=300, 
+    bot.drive_base.settings(straight_speed=400, 
                         straight_acceleration=150,
                         turn_rate=300,
                         turn_acceleration=400)
-    #bot.backToWall()
+    bot.backToWall()
     bot.armUp()
     bot.driveStraight(755)
-    bot.turn(90)
-    bot.driveStraight(325 )
-    bot.turn(-90)
-    bot.driveStraight(-100)
+    wait(50)
+    bot.smartTurn(90)
+    bot.driveStraight(305)
+    bot.smartTurn(-90)
+    bot.driveStraight(-90)
     bot.armDown()
-    bot.driveStraight(95)
+    bot.driveStraight(60)
 
     #lifting minecart
     bot.moveArm(100, heavy=True)
@@ -197,8 +176,6 @@ def heavyLifting():
     return
 
 def menu():
-    turntest()
-    return
     bot.setdefalts()
     x=hub_menu("1","2","3","4", "5")
     if x=="1":
