@@ -14,7 +14,7 @@ def mapReveal():
     bot.armDown()
     #bot.topArmDown()
     wait(100)
-    bot.moveTopArm(50)
+    bot.moveTopArm(100)
     bot.moveArm(50)
     wait(50)
 
