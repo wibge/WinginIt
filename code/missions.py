@@ -1,5 +1,7 @@
 from CoopBot import bot, LEFT, RIGHT, BLACK, WHITE
 from pybricks.tools import wait, StopWatch, hub_menu
+from pybricks.parameters import Button
+from pybricks.parameters import Icon
 
 def spinWheels():
     #this function can be used for wheel cleaning and crossing over-
@@ -175,16 +177,15 @@ def heavyLifting():
     bot.moveArm(-210)
     bot.drive_base.settings(straight_speed=400, straight_acceleration=400)
     bot.driveStraight(-90, speed=400)
-    bot.setdefalts()
     bot.turn(20)
     bot.armUp()
-    bot.driveStraight(-500)
-
-
-    #bot.driveStraight(645)
-    #bot.turn(45)
+    bot.drive_base.drive(-500)
+    wait(2000)
 
     return
+
+def display(number):
+    bot.prime_hub.display.char(str(number))
 
 def menu():
     bot.setdefalts()
@@ -199,4 +200,55 @@ def menu():
         minecarttop()
     if x=="5":
         heavyLifting()
+        
+def competition_menu():
+    bot.prime_hub.system.set_stop_button((Button.LEFT, Button.RIGHT)) 
+   
+    #bot.setdefalts()
+    # Mission order: 2, 4, 3, 5
+    mission_order = [1, 2, 4, 3, 5]
+    mission_functions = {
+        1: spinWheels,
+        2: mapReveal,
+        4: minecarttop,
+        3: whatsonsale9,
+        5: heavyLifting
+    }
+
+    current_index = 1
+    mission_num = mission_order[current_index]
+    display(mission_num)
+
+    while True:
+        
+        # Display current mission number
+
+
+        # Wait for button press
+        pressed = bot.prime_hub.buttons.pressed()
+        print(pressed)
+        print(len(pressed))
+        if len(pressed) > 0:
+            if Button.CENTER in pressed:
+                # Start the selected mission
+                #mission_functions[mission_num]()
+                wait(1000)
+                current_index = (current_index + 1) % len(mission_order)
+                #bot.setdefalts()
+            elif Button.LEFT in pressed:
+                # Move to previous mission in the list
+                current_index = (current_index - 1) % len(mission_order)
+                wait(200)  # Debounce delay
+            elif Button.RIGHT in pressed:
+                # Move to next mission in the list
+                current_index = (current_index + 1) % len(mission_order)
+                wait(200)  # Debounce delay
+
+            mission_num = mission_order[current_index]
+            display(mission_num)
+
+
+
+        wait(50)  # Small delay to prevent excessive CPU usage
+
 menu()

@@ -22,6 +22,7 @@ class CoopBot:
 
     def __init__(self):
         self.prime_hub = PrimeHub(top_side=Axis.Z, front_side=Axis.X)
+        return
         self.left_sensor = ColorSensor(Port.D)
         self.right_sensor = ColorSensor(Port.F)
         self.top_motor = Motor(Port.A, Direction.CLOCKWISE)
