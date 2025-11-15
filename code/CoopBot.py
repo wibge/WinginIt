@@ -11,7 +11,7 @@ RIGHT = 0
 BLACK = 1
 WHITE = 0
 
-FRONT_ARM_SPEED = 200
+FRONT_ARM_SPEED = 400
 TURN_SPEED = 100
 TURN_ACCELERATION = 400
 SPEED = 200
@@ -37,11 +37,13 @@ class CoopBot:
         self.drive_base.use_gyro(True)
         print(self.drive_base.settings())
         
-        self.drive_base.settings(straight_speed=SPEED, 
+        self.setdefalts()
+        
+    def setdefalts(self):
+         self.drive_base.settings(straight_speed=SPEED, 
                                  straight_acceleration=SPEED_ACCELERATION,
                                  turn_rate=TURN_SPEED,
                                  turn_acceleration=TURN_ACCELERATION)
-
     def reset(self):
         self.drive_base.reset()
         wait(100)
