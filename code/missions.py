@@ -50,12 +50,12 @@ def theforge():
 def whatsonsale9():
     bot.backToWall()
     bot.armDown()
-    wait(50)
+    wait(20)
     bot.moveArm(100)
     bot.driveStraight(290)
-    bot.turn(-45)
+    bot.smartTurn(-46)
     
-    bot.driveStraight(108)
+    bot.driveStraight(102)
     bot.moveArm(-120, heavy=True)
     bot.moveArm(50)
     bot.driveStraight(-20)
@@ -63,11 +63,11 @@ def whatsonsale9():
     bot.driveStraight(20)
 
     # head towards next mission
-    bot.turn(57.0)
-    wait(100)
+    bot.smartTurn(56.0)
+    wait(50)
     bot.armDown()
     #bot.moveArm(-205)
-    bot.driveStraight(430)
+    bot.driveStraight(420)
     #bot.moveArm(-205)
     
     bot.turn(-27, timeout=True, timeoutms=2000)
@@ -82,8 +82,8 @@ def whatsonsale9():
     bot.turn(15)
     bot.driveStraight(-100, speed=300)
     #return to home
-    bot.turn(-58)
-    bot.driveStraight(-700, speed=500)
+    bot.turn(-80)
+    bot.driveStraight(-700, speed=600)
 
 
 
@@ -99,31 +99,31 @@ def minecarttop():
     bot.driveStraight(755)
     wait(50)
     bot.smartTurn(90)
-    bot.driveStraight(305)
+    bot.driveStraight(300)
     bot.smartTurn(-90)
     bot.driveStraight(-90)
     bot.armDown()
-    bot.driveStraight(60)
+    bot.driveStraight(55)
 
     #lifting minecart
     bot.moveArm(100, heavy=True)
     bot.driveStraight(5)
     bot.moveArm(60, heavy=True)
     bot.driveStraight(10)
-    bot.moveArm(20, heavy=True)
+    bot.moveArm(20)
     bot.driveStraight(35)
-    bot.moveArm(20, heavy=True)
-    bot.driveStraight(35)
-    wait(200)
+    bot.moveArm(20)
+    bot.driveStraight(25)
+    wait(100)
 
-    bot.driveStraight(-40)
+    bot.driveStraight(-30)
 
     bot.armUp()
 
+    bot.smartTurn(87)
+    bot.driveStraight(570)
     bot.turn(90)
-    bot.driveStraight(550)
-    bot.turn(90)
-    bot.driveStraight(-50)
+    bot.driveStraight(-25)
     
     bot.armDown() # lowering basket
     bot.armUp()
@@ -134,10 +134,15 @@ def minecarttop():
     #bot.driveStraight(275, speed=100)
 
     # returning to launch area
-    bot.turn(-80)
-
-    bot.drive_base.settings(straight_speed=500)
-    bot.drive_base.arc(700, angle=90)
+    bot.turn(-85)
+    bot.drive_base.drive(speed=500, turn_rate=5) # straightish to miss red thing
+    wait(1000)
+    bot.prime_hub.display.char("A")
+    bot.drive_base.drive(speed=500, turn_rate=35) # arc towards home
+    wait(1500)
+    bot.prime_hub.display.char("B")
+    bot.drive_base.drive(speed=500, turn_rate=0) # straight in
+    wait(1000)
 
 def turntest():
     bot.armUp()
@@ -149,6 +154,12 @@ def turntest():
     wait(1000)
     bot.smartTurn(90)
     wait(1000)
+
+def hometest():
+    bot.drive_base.settings(straight_speed=400, 
+                straight_acceleration=150,
+                turn_rate=300,
+                turn_acceleration=400)
 
    
 def heavyLifting():

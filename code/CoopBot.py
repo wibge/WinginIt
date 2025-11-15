@@ -145,9 +145,9 @@ class CoopBot:
             # Limit speed to reasonable range
             #speed = max(min(speed, 200), -200)
             if speed >= 0:
-                speed = max(25, min(speed, 400))
+                speed = max(15, min(speed, 400))
             elif speed < 0:
-                speed = min(-25, max(speed, -400))
+                speed = min(-15, max(speed, -400))
             
             # Apply speed to motors (opposite directions for turning)
             bot.left_motor.run(speed)
@@ -238,7 +238,10 @@ class CoopBot:
             remaining_distance = totalDistance - drivenDistance
             # slow down for last 5 cm
             if remaining_distance < 50:
-                self.drive_base.drive(speed * remaining_distance/75.0, 0)
+                current_speed = speed * remaining_distance/75.0
+                if abs(current_speed) < 20:
+                    current_speed = 20 * direction
+                self.drive_base.drive(current_speed, 0)
             wait(5)
         self.drive_base.stop()
         self.waitUntilDone()
