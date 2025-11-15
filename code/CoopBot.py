@@ -22,7 +22,6 @@ class CoopBot:
 
     def __init__(self):
         self.prime_hub = PrimeHub(top_side=Axis.Z, front_side=Axis.X)
-        return
         self.left_sensor = ColorSensor(Port.D)
         self.right_sensor = ColorSensor(Port.F)
         self.top_motor = Motor(Port.A, Direction.CLOCKWISE)
@@ -253,23 +252,27 @@ class CoopBot:
 
         # resets gyro/heading to zero, resets distance traveled to zero
         self.drive_base.reset()
-        wait(100) # wait in millisecond 
-        self.drive_base.stop()
-        wait(100)
+        wait(10) # wait in millisecond 
         self.drive_base.drive(speed, 0)  # start driving
         
         print("Start: " + str(self.prime_hub.imu.heading()) + " " + str(self.drive_base.distance()))
 
         # loop while you haven't traveled the full distance
         last_heading = self.prime_hub.imu.heading()
-        while True:
+        watch = StopWatch()
+        distance = 0
+        while True and watch.time() < 5000:
             heading = self.prime_hub.imu.heading() 
-            print(str(last_heading - heading) + " " + str(self.drive_base.distance()))
- 
-            if abs(heading - last_heading) > 0.5:
+            delta_distance = abs(self.drive_base.distance() - distance)
+            distance = self.drive_base.distance()
+
+            if (abs(heading - last_heading) > 1):
+                print("Impact: %.2f distance %.2f, delta_d %.2f, time: %.0f" % 
+                      (last_heading - heading, distance, delta_distance, watch.time()))
                 break
 
             last_heading = heading
+            wait(50)
         self.drive_base.stop()   
 
     def colorCode(self, speed=100):

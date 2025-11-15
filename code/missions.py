@@ -10,15 +10,15 @@ def spinWheels():
     wait(600000)
     
 def mapReveal():
+    bot.backToWall()
     bot.armDown()
-    #bot.topArmDown()
-    wait(100)
+    wait(50)
     bot.moveTopArm(100)
     bot.moveArm(50)
     wait(50)
 
 
-    bot.driveStraight(780,150) # long drive across mat
+    bot.driveStraight(780,300) # long drive across mat
     wait(50)
     bot.turn(-41)
     wait(50)
@@ -35,15 +35,7 @@ def mapReveal():
     bot.turn(70)
     bot.driveStraight(-700, speed=400)
 
-def theforge():
-    bot.armDown()
-    #bot.armUp()
-    bot.driveStraight(740)
-    #bot.moveArm(20)
-    bot.turn(30)
-    bot.driveStraight(-75)
-    #bot.turn(50)
-    #bot.driveUntilImpact()
+
 
 def whatsonsale9():
     bot.backToWall()
@@ -64,9 +56,7 @@ def whatsonsale9():
     bot.smartTurn(58.0)
     wait(50)
     bot.armDown()
-    #bot.moveArm(-205)
     bot.driveStraight(420)
-    #bot.moveArm(-205)
     
     bot.turn(-27, timeout=True, timeoutms=2000)
     bot.driveStraight(-5)
@@ -140,6 +130,7 @@ def minecarttop():
     bot.prime_hub.display.char("B")
     bot.drive_base.drive(speed=500, turn_rate=0) # straight in
     wait(1000)
+    bot.drive_base.stop()
 
 def turntest():
     bot.armUp()
@@ -177,6 +168,20 @@ def heavyLifting():
 
     bot.drive_base.drive(-500)
     wait(2000)
+    bot.drive_base.stop()
+
+def brush():
+
+    bot.armUp()
+    bot.driveStraight(distance=500, speed=400)
+    bot.moveArm(-205)  
+    bot.driveStraight(-70)
+    bot.moveArm(100)
+    bot.moveArm(-100)
+    bot.driveStraight(90)
+    bot.driveStraight(-20)
+    bot.moveArm(100)
+    bot.driveUntilImpact(forward=False, speed=300)
 
 
 def display(number):
@@ -197,9 +202,10 @@ def menu():
         heavyLifting()
         
 def competition_menu():
+    brush()
+    return
     bot.prime_hub.system.set_stop_button((Button.LEFT, Button.RIGHT)) 
-   
-    #bot.setdefalts()
+    bot.setdefalts()
     # Mission order: 2, 4, 3, 5
     mission_order = [1, 2, 4, 3, 5]
     mission_functions = {
@@ -221,15 +227,13 @@ def competition_menu():
 
         # Wait for button press
         pressed = bot.prime_hub.buttons.pressed()
-        print(pressed)
-        print(len(pressed))
+
         if len(pressed) > 0:
             if Button.CENTER in pressed:
                 # Start the selected mission
-                #mission_functions[mission_num]()
-                wait(1000)
+                mission_functions[mission_num]()
                 current_index = (current_index + 1) % len(mission_order)
-                #bot.setdefalts()
+                bot.setdefalts()
             elif Button.LEFT in pressed:
                 # Move to previous mission in the list
                 current_index = (current_index - 1) % len(mission_order)
@@ -246,4 +250,4 @@ def competition_menu():
 
         wait(50)  # Small delay to prevent excessive CPU usage
 
-menu()
+competition_menu()
