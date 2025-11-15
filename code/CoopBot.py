@@ -12,6 +12,7 @@ BLACK = 1
 WHITE = 0
 
 FRONT_ARM_SPEED = 400
+TOP_ARM_SPEED = 200
 TURN_SPEED = 100
 TURN_ACCELERATION = 400
 SPEED = 200
@@ -95,9 +96,9 @@ class CoopBot:
         self.reset()
 
         # PID constants - tune these for your robot
-        kp = 1.5  # Proportional gain
-        ki = 0.01  # Integral gain
-        kd = 0.5  # Derivative gain
+        kp = 3.5  # Proportional gain
+        ki = 0.02  # Integral gain
+        kd = 0.6  # Derivative gain
 
         # PID variables
         integral = 0
@@ -117,27 +118,37 @@ class CoopBot:
 
             # Check if within tolerance
             if abs(error) < tolerance or watch.time() > timeoutms:
+                print(".   waiting.. error %.3f actual:%.3f time %.2f" % (error, self.heading(), watch.time()))
                 bot.left_motor.brake()
                 bot.right_motor.brake()
                 bot.left_motor.stop()
                 bot.right_motor.stop()
-                wait(100)
+                wait(75)
                 current_angle = self.heading()
                 error = target_angle - current_angle
+                print(".   after.. error %.3f actual:%.3f time %.2f" % (error, self.heading(), watch.time()))
+                integral=0
+                derivative=0
+                previous_error=0
 
                 if abs(error) < tolerance or watch.time() > timeoutms:
                     break
 
             # PID calculations
-            integral += error
+            #integral += error
+            integral = integral * 0.99 + error
             derivative = error - previous_error
 
             # Calculate motor speed
             speed = (kp * error) + (ki * integral) + (kd * derivative)
 
             # Limit speed to reasonable range
-            speed = max(min(speed, 200), -200)
-
+            #speed = max(min(speed, 200), -200)
+            if speed >= 0:
+                speed = max(25, min(speed, 400))
+            elif speed < 0:
+                speed = min(-25, max(speed, -400))
+            
             # Apply speed to motors (opposite directions for turning)
             bot.left_motor.run(speed)
             bot.right_motor.run(-speed)
@@ -367,10 +378,11 @@ class CoopBot:
         
         print(self.front_motor.control.stall_tolerances())
         self.front_motor.run_until_stalled(FRONT_ARM_SPEED, Stop.COAST)
+        self.front_motor.run_angle(speed=FRONT_ARM_SPEED, rotation_angle=-10, wait=True)
 
     def armDown(self):
         savetol = self.front_motor.control.stall_tolerances()
-        self.front_motor.control.stall_tolerances(speed=100, time=25)
+        self.front_motor.control.stall_tolerances(speed=150, time=25)
         self.front_motor.run_until_stalled(-FRONT_ARM_SPEED, Stop.COAST)   
         self.front_motor.control.stall_tolerances(*savetol)
         self.front_motor.run_angle(speed=FRONT_ARM_SPEED, rotation_angle=20, wait=True)
@@ -387,7 +399,7 @@ class CoopBot:
         self.front_motor.control.stall_tolerances(*savetol)
 
     def moveTopArm(self, degrees):
-        self.top_motor.run_angle(speed=FRONT_ARM_SPEED, 
+        self.top_motor.run_angle(speed=TOP_ARM_SPEED, 
                                  rotation_angle=degrees,
                                  wait=False)
         
@@ -395,11 +407,11 @@ class CoopBot:
 
     def topArmDown(self):
             print(self.top_motor.control.stall_tolerances())
-            self.top_motor.run_until_stalled(-FRONT_ARM_SPEED, Stop.COAST)  
+            self.top_motor.run_until_stalled(-TOP_ARM_SPEED, Stop.COAST)  
 
     def topArmUp(self):
             print(self.top_motor.control.stall_tolerances())
-            self.top_motor.run_until_stalled(FRONT_ARM_SPEED, Stop.COAST) 
+            self.top_motor.run_until_stalled(TOP_ARM_SPEED, Stop.COAST) 
               
 bot = CoopBot()
 

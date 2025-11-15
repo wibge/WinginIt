@@ -115,7 +115,7 @@ def minecarttop():
     bot.drive_base.settings(straight_speed=300, 
                         straight_acceleration=150,
                         turn_rate=300,
-                        turn_acceleration=200)
+                        turn_acceleration=400)
     #bot.backToWall()
     bot.armUp()
     bot.driveStraight(755)
@@ -159,31 +159,18 @@ def minecarttop():
 
     bot.drive_base.settings(straight_speed=500)
     bot.drive_base.arc(700, angle=90)
-    bot.setdefalts()
 
 def turntest():
-    bot.smartTurn(87)
-    wait(1000)
-    bot.smartTurn(87)
-    wait(1000)
-    bot.smartTurn(87)
-    wait(1000)
-
-
-def heavyLifting2():
     bot.armUp()
-    bot.drive_base.drive(350, 0)
-    wait(4800)
-    bot.drive_base.stop()
-    bot.drive_base.brake()
-    wait(100)
-    bot.driveStraight(-150)
-    bot.moveArm(-150)
-    bot.turn(-25)
-    bot.driveStraight(-35)
-    bot.moveArm(150)
-    bot.turn(20)
-    bot.driveStraight(-500)
+    bot.smartTurn(90)
+    wait(1000)
+    bot.smartTurn(90)
+    wait(1000)
+    bot.smartTurn(90)
+    wait(1000)
+    bot.smartTurn(90)
+    wait(1000)
+
    
 def heavyLifting():
     bot.armUp()
@@ -210,6 +197,8 @@ def heavyLifting():
     return
 
 def menu():
+    turntest()
+    return
     bot.setdefalts()
     x=hub_menu("1","2","3","4", "5")
     if x=="1":
