@@ -45,7 +45,7 @@ def whatsonsale9():
     bot.driveStraight(290)
     bot.smartTurn(-50)
     
-    bot.driveStraight(102)
+    bot.driveStraight(100)
     bot.moveArm(-120, heavy=True)
     bot.moveArm(50)
     bot.driveStraight(-20)
@@ -83,7 +83,7 @@ def minecarttop():
     bot.driveStraight(755)
     wait(50)
     bot.smartTurn(90)
-    bot.driveStraight(295)
+    bot.driveStraight(293)
     bot.smartTurn(-90)
     bot.driveStraight(-90)
     bot.armDown()
@@ -157,10 +157,10 @@ def heavyLifting():
     bot.drive_base.stop()
     bot.drive_base.brake()
     wait(100)
-    bot.driveStraight(-150)
-    bot.turn(-38)
-    bot.driveStraight(70)
-    bot.moveArm(-210)
+    bot.driveStraight(-170) #back up from wall
+    bot.turn(-39) # turn towards statue
+    bot.driveStraight(105)
+    bot.moveArm(-210) # grab statue
     bot.drive_base.settings(straight_speed=400, straight_acceleration=400)
     bot.driveStraight(-90, speed=400)
     bot.turn(20)
