@@ -83,7 +83,7 @@ def minecarttop():
     bot.driveStraight(755)
     wait(50)
     bot.smartTurn(90)
-    bot.driveStraight(300)
+    bot.driveStraight(295)
     bot.smartTurn(-90)
     bot.driveStraight(-90)
     bot.armDown()
