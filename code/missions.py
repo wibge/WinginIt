@@ -27,7 +27,7 @@ def mapReveal():
     bot.topArmDown()
     
     bot.moveArm(100) # lift up grass
-    bot.driveStraight(30) # forward, push grass
+    bot.driveStraight(35) # forward, push grass
     bot.moveTopArm(100) # move top arm, so it doesn't get caught on loop
     bot.driveStraight(-210)
 
@@ -87,7 +87,7 @@ def minecarttop():
     bot.smartTurn(-90)
     bot.driveStraight(-90)
     bot.armDown()
-    bot.driveStraight(70)
+    bot.driveStraight(60)
 
     #lifting minecart
     bot.moveArm(100, heavy=True)
@@ -166,7 +166,7 @@ def heavyLifting():
     bot.turn(20)
     bot.armUp()
 
-    bot.drive_base.drive(-500)
+    bot.drive_base.drive(speed=-500, turn_rate=0)
     wait(2000)
     bot.drive_base.stop()
 
@@ -174,12 +174,13 @@ def brush():
 
     bot.armUp()
     bot.driveStraight(distance=500, speed=400)
-    bot.moveArm(-205)  
+    bot.moveArm(-207)  
+    bot.driveStraight(-80)
+    bot.moveArm(200)
+    bot.moveArm(-420)
     bot.driveStraight(-70)
-    bot.moveArm(100)
-    bot.moveArm(-100)
-    bot.driveStraight(90)
-    bot.driveStraight(-20)
+    bot.moveArm(-150)
+    bot.driveStraight(-70)
     bot.moveArm(100)
     bot.driveUntilImpact(forward=False, speed=300)
 
@@ -202,8 +203,7 @@ def menu():
         heavyLifting()
         
 def competition_menu():
-    brush()
-    return
+
     bot.prime_hub.system.set_stop_button((Button.LEFT, Button.RIGHT)) 
     bot.setdefalts()
     # Mission order: 2, 4, 3, 5
@@ -231,9 +231,11 @@ def competition_menu():
         if len(pressed) > 0:
             if Button.CENTER in pressed:
                 # Start the selected mission
+                
                 mission_functions[mission_num]()
                 current_index = (current_index + 1) % len(mission_order)
                 bot.setdefalts()
+                 
             elif Button.LEFT in pressed:
                 # Move to previous mission in the list
                 current_index = (current_index - 1) % len(mission_order)
