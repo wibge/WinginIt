@@ -2,7 +2,6 @@ from CoopBot import bot, LEFT, RIGHT, BLACK, WHITE
 from pybricks.tools import wait, StopWatch, hub_menu
 from pybricks.parameters import Button
 from pybricks.parameters import Icon
-
 def spinWheels():
     #this function can be used for wheel cleaning and crossing over-
     #to the other side of the map
@@ -18,7 +17,7 @@ def mapReveal():
     wait(50)
 
 
-    bot.driveStraight(780,300) # long drive across mat
+    bot.driveStraight(770,300) # long drive across mat
     wait(50)
     bot.turn(-41)
     wait(50)
@@ -27,7 +26,7 @@ def mapReveal():
     bot.topArmDown()
     
     bot.moveArm(100) # lift up grass
-    bot.driveStraight(35) # forward, push grass
+    bot.driveStraight(37) # forward, push grass
     bot.moveTopArm(100) # move top arm, so it doesn't get caught on loop
     bot.driveStraight(-210)
 
@@ -35,8 +34,24 @@ def mapReveal():
     bot.turn(70)
     bot.driveStraight(-700, speed=400)
 
-
-
+def Morge():
+    bot.armDown()
+    bot.driveStraight(805)
+    bot.turn(-27, timeout=True, timeoutms=2000)
+    bot.driveStraight(-5)
+    bot.turn(-5, timeout=True, timeoutms=1000)
+    wait(500)
+    #goingtoforge
+    bot.turn(50, timeout=True, timeoutms=2000)
+    bot.driveStraight(-55)
+    bot.turn(30, timeout=True, timeoutms=2000)
+    bot.turn(-10)
+    bot.turn(15)
+    bot.driveStraight(-100, speed=300)
+    #return to home
+    bot.turn(-80)
+    bot.driveStraight(-700, speed=800)
+"""
 def whatsonsale9():
     bot.backToWall()
     bot.armDown()
@@ -46,12 +61,7 @@ def whatsonsale9():
     bot.smartTurn(-50)
     
     bot.driveStraight(100)
-    bot.moveArm(-120, heavy=True)
-    bot.moveArm(50)
-    bot.driveStraight(-20)
-    bot.armUp()
-    bot.driveStraight(20)
-
+    
     # head towards next mission
     bot.smartTurn(58.0)
     wait(50)
@@ -72,6 +82,7 @@ def whatsonsale9():
     #return to home
     bot.turn(-80)
     bot.driveStraight(-700, speed=800)
+"""
    
 def minecarttop():
     bot.drive_base.settings(straight_speed=400, 
@@ -132,6 +143,17 @@ def minecarttop():
     wait(1000)
     bot.drive_base.stop()
 
+def YarHarAPiratesLifeForMe():
+    bot.armUp()
+    bot.driveStraight(-600,speed=450)
+    bot.driveStraight(-170,speed=150)
+    #bot.driveStraight(600, speed=450)
+    bot.drive_base.drive(speed=500, turn_rate=-1) # arc towards home
+    wait(3000)
+    bot.drive_base.drive(speed=500, turn_rate=-10) # arc towards home
+    wait(4000)
+    bot.drive_base.stop()
+
 def turntest():
     bot.armUp()
     bot.smartTurn(90)
@@ -155,7 +177,7 @@ def heavyLifting():
     bot.drive_base.drive(350, 0)
     wait(4800)
     bot.drive_base.stop()
-    bot.drive_base.brake()
+    bot.drive_base.brake() 
     wait(100)
     bot.driveStraight(-170) #back up from wall
     bot.turn(-39) # turn towards statue
@@ -189,32 +211,38 @@ def display(number):
     bot.prime_hub.display.char(str(number))
 
 def menu():
+
     bot.setdefalts()
-    x=hub_menu("1","2","3","4", "5")
+    x=hub_menu("1","2","3","4","5","6")
     if x=="1":
         spinWheels()
     if x=="2":
         mapReveal()
     if x=="3":
-        whatsonsale9()
+        Morge()
     if x=="4":
         minecarttop()
     if x=="5":
         heavyLifting()
-        
+    if x=="6":
+        YarHarAPiratesLifeForMe()
+
 def competition_menu():
 
     bot.prime_hub.system.set_stop_button((Button.LEFT, Button.RIGHT)) 
     bot.setdefalts()
     # Mission order: 2, 4, 3, 5
-    mission_order = [1, 2, 4, 3, 5]
+    mission_order = [1, 2, 6, 4, 3, 5,
+                        ]
     mission_functions = {
         1: spinWheels,
         2: mapReveal,
         4: minecarttop,
-        3: whatsonsale9,
-        5: heavyLifting
-    }
+        3: Morge,
+        5: heavyLifting,
+        6: YarHarAPiratesLifeForMe
+    }   
+
 
     current_index = 1
     mission_num = mission_order[current_index]
